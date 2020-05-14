@@ -1,0 +1,80 @@
+php artisan -V
+php artisan tinker
+
+docker-compose up -d
+docker-compose up --build -d
+docker-compose up build --no-cache
+docker-compose ps
+docker-compose exec app php artisan
+docker-compose down
+docker-compose restart
+docker-compose exec app php artisan migrate:fresh --seed
+docker-compose exec app php artisan schedule:run
+docker-compose exec app composer install
+docker-compose exec app composer update
+docker-compose run frontend npm run dev
+docker-compose exec app composer dump-autoload -o
+docker-compose exec app php artisan tinker
+docker-compose exec app php artisan migrate
+docker-compose exec app php artisan migrate:rollback
+docker-compose exec app composer require
+docker-compose logs -f db
+
+docker-compose exec app php artisan cache:clear
+docker-compose exec app php artisan config:clear
+docker-compose exec app php artisan view:clear
+
+docker-compose exec app composer require laravel/installer
+
+composer install
+cp .env.example .env
+composer install --no-dev --optimize-autoloader
+sudo apt-get install libpng-dev
+npm install
+npm install --production
+npm run production
+php artisan key:generate
+php artisan migrate
+php artisan db:seed
+php artisan migrate:fresh --seed
+
+npm i
+npm run production
+npm run watch
+
+composer dump-autoload -o
+php artisan cache:clear
+php artisan config:clear
+php artisan view:clear
+
+composer remove vendor/package
+php artisan db:seed --class=UsersTableSeeder
+
+use Barryvdh\Debugbar\Facade as Debugbar;
+
+php artisan migrate
+php artisan migrate:fresh --seed
+php artisan db:seed
+php artisan db:seed --class=PermissionsForCostSummarySeeder
+php artisan make:seeder PermissionsForCostSummarySeeder
+
+php artisan make:migration add_votes_to_users_table --table=users
+
+php artisan make:migration create_liquidity_providers_table --create=liquidity_providers
+php artisan make:model LiquidityProvider
+php artisan make:model LiquidityProviderHistory
+php artisan nova:resource LiquidityProvider
+php artisan nova:resource LiquidityProviderHistory
+php artisan make:policy LiquidityProviderPolicy --model=LiquidityProvider
+php artisan make:factory LiquidityProviderFactory --model=LiquidityProvider
+php artisan make:factory LiquidityProviderHistoryFactory --model=LiquidityProviderHistory
+php artisan make:seeder LiquidityProvidersTableSeeder
+php artisan make:seeder LiquidityProvidersHistoryTableSeeder
+docker-compose exec app php artisan db:seed --class=LiquidityProvidersTableSeeder
+docker-compose exec app php artisan db:seed --class=LiquidityProvidersHistoryTableSeeder
+docker-compose exec app php artisan db:seed --class=PermissionsForLiquidityProvidersSeeder
+php artisan nova:filter LiquidityProvider/LiquidityProviderLPNameFilter
+php artisan nova:filter LiquidityProvider/LiquidityProviderCompanyNameFilter
+docker-compose exec app php artisan lp:saving
+
+
