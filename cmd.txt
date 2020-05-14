@@ -24,7 +24,8 @@ docker-compose exec app php artisan cache:clear
 docker-compose exec app php artisan config:clear
 docker-compose exec app php artisan view:clear
 
-docker-compose exec app composer require laravel/installer
+docker-compose exec app composer create-project --prefer-dist laravel/laravel
+docker-compose exec app composer create-project laravel/laravel .
 
 composer install
 cp .env.example .env
