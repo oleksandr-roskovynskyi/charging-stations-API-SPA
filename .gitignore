@@ -17,8 +17,10 @@ public_html/hot
 
 storage/*.key
 .env
-Homestead.yaml
-Homestead.json
-/.vagrant
+.env.backup
 .phpunit.result.cache
 .idea
+.docker/.postgre
+.docker/.mysql
+docker-compose.yml
+.cmd
