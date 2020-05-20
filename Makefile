@@ -10,11 +10,8 @@ up:
 	docker-compose run frontend npm run prod
 
 watch:
-	docker-compose up -d && \
- 	docker-compose exec app php artisan migrate && \
 	docker-compose run frontend npm run watch
 
 d:
 	docker-compose up -d && \
 	docker-compose ps
-
