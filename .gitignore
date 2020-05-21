@@ -16,9 +16,9 @@ public_html/storage
 public_html/hot
 
 # Webpack exec
-public/css/
-public/js/
-public/mix-manifest.json
+#public/css/
+#public/js/
+#public/mix-manifest.json
 
 storage/*.key
 .env
