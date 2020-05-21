@@ -9,7 +9,7 @@ Route::prefix('v1')->group(function () {
 
     Route::post('charging-stations/city', 'ChargingStationController@getChargingStationsOfCity');
 
-    Route::post('charging-stations/opening', 'ChargingStationController@getOpeningOfCity');
+    Route::post('charging-stations/now-open', 'ChargingStationController@getOpeningOfCity');
 
-    Route::post('charging-stations/closest', 'ChargingStationController@getClosest');
+    Route::post('charging-stations/closest-now-open', 'ChargingStationController@getClosest');
 });

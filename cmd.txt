@@ -12,7 +12,8 @@ docker-compose exec app php artisan migrate:fresh --seed
 docker-compose exec app php artisan schedule:run
 docker-compose exec app composer install
 docker-compose exec app composer update
-docker-compose run frontend npm run dev
+docker-compose run frontend npm run watch
+docker-compose run frontend npm i
 docker-compose exec app composer dump-autoload -o
 docker-compose exec app php artisan tinker
 docker-compose exec app php artisan route:list

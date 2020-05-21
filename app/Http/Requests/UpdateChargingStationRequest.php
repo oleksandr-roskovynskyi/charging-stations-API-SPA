@@ -30,7 +30,8 @@ class UpdateChargingStationRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => "required|unique:charging_stations,name,{$this->charging_station->id}|string|max:255",
+            'id' => "required|integer|exists:charging_stations,id",
+            'name' => "required|string|max:255|unique:charging_stations,name,{$this->get('id')}",
             'city' => 'required|string|max:100',
             'open_from' => 'required|date_format:H:i',
             'open_to' => 'required|date_format:H:i',

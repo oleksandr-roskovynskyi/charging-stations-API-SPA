@@ -3,6 +3,7 @@
 namespace App\Service;
 
 use App\Models\ChargingStation;
+use Carbon\Carbon;
 
 final class GeoPoint
 {
@@ -34,6 +35,8 @@ final class GeoPoint
 
     public function getClosest($unitOfDistance = 'km'): array
     {
+        $timeNow = Carbon::now()->format('H:i');
+
         switch ($unitOfDistance) {
             case 'ml':
                 $radiusOfEarth = self::RADIUS_OF_EARTH_ML;
@@ -52,6 +55,15 @@ final class GeoPoint
                 + sin( radians('.$this->getLatitude().') )
                 * sin( radians( latitude ) )
             )) AS distance')
+            ->where(function ($query) use ($timeNow) {
+                $query->whereTime('open_from', '<', $timeNow)
+                    ->whereTime('open_to', '>', $timeNow);
+            })
+            ->orWhere(function ($query) use ($timeNow) {
+                $query->whereTime('open_from', '<', $timeNow)
+                    ->whereTime('open_to', '<', $timeNow)
+                    ->whereRaw('open_to::time < open_from::time');
+            })
             ->orderByRaw('distance')
             ->limit(30)
             ->get()
