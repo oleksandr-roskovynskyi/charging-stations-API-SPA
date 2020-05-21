@@ -15,6 +15,11 @@ public/hot
 public_html/storage
 public_html/hot
 
+# Webpack exec
+public/css/
+public/js/
+public/mix-manifest.json
+
 storage/*.key
 .env
 .env.backup
@@ -23,4 +28,4 @@ storage/*.key
 .docker/.postgre
 .docker/.mysql
 docker-compose.yml
-.cmd
+cmd.txt

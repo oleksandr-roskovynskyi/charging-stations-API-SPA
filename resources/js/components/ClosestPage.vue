@@ -2,17 +2,34 @@
     <VContainer>
         <v-card>
             <v-card-title>
-                <span class="headline">Enter your city</span>
+                <span class="headline">Enter your coordinates</span>
             </v-card-title>
             <v-card-text>
-                <v-combobox
-                    label="City"
-                    v-model="dataRequest.city"
-                    :items="dataRequest.cityNames"
-                    prepend-icon="mdi-city"
-                    placeholder='"Київ" for example'
-                    outlined
-                ></v-combobox>
+                <v-row>
+                    <v-col cols="6">
+                        <v-text-field
+                            v-model="dataRequest.latitude"
+                            placeholder="46.55126100"
+                            type="number"
+                            label="Latitude"
+                            prepend-icon="mdi-latitude"
+                        ></v-text-field>
+                    </v-col>
+                    <v-col cols="6">
+                        <v-text-field
+                            v-model="dataRequest.longitude"
+                            placeholder="30.17438800"
+                            type="number"
+                            label="Longitude"
+                            prepend-icon="mdi-longitude"
+                        ></v-text-field>
+                    </v-col>
+                </v-row>
+                <small>
+                    <a href="https://www.maps.ie/coordinates.html" target="_blank">
+                        To find the exact GPS latitude and longitude coordinates of a point on a map: https://www.maps.ie
+                    </a>
+                </small>
             </v-card-text>
             <v-card-actions>
                 <v-spacer/>
@@ -20,9 +37,9 @@
                     color="deep-purple darken-4"
                     large
                     dark
-                    @click="citySearch"
+                    @click="searchClosest"
                 >
-                    Click to search!
+                    Click to search closest now open!
                 </v-btn>
                 <v-spacer/>
             </v-card-actions>
@@ -30,12 +47,12 @@
         <v-data-table
             :headers="headers"
             :items="chargingStations"
-            sort-by="name"
+            sort-by="distance"
             class="elevation-1"
         >
             <template v-slot:top>
                 <v-toolbar flat color="white">
-                    <v-toolbar-title>API service (closest)</v-toolbar-title>
+                    <v-toolbar-title>API service (closest now open)</v-toolbar-title>
                     <v-divider
                         class="mx-4"
                         inset
@@ -50,7 +67,7 @@
                     type="info"
                     color="green darken-1"
                 >
-                    Loading...
+                    No data...
                 </v-alert>
             </template>
         </v-data-table>
@@ -72,37 +89,21 @@
                 },
                 { text: 'City', value: 'city' },
                 { text: 'Open from', value: 'open_from' },
-                { text: 'To', value: 'open_to' },
+                { text: 'Closes', value: 'open_to' },
                 { text: 'Latitude', value: 'latitude' },
                 { text: 'Longitude', value: 'longitude' },
                 { text: 'Distance, km', value: 'distance' },
             ],
             chargingStations: [],
             dataRequest: {
-                city: '',
+                latitude: '',
+                longitude: '',
             },
         }),
 
-        created () {
-            this.initialize();
-        },
-
         methods: {
-            initialize () {
-                this.chargingStations = [
-                    {
-                        name: '',
-                        city: '',
-                        open_from: '',
-                        open_to: '',
-                        latitude: '',
-                        longitude: ''
-                    },
-                ]
-            },
-
-            citySearch() {
-                axios.post('/api/v1/charging-stations/city', this.cityRequest)
+            searchClosest() {
+                axios.post('/api/v1/charging-stations/closest-now-open', this.dataRequest)
                     .then(res => this.chargingStations = res.data.data)
                     .catch(error => console.log(error.response.data))
             },

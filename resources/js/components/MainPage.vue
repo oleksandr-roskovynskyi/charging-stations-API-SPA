@@ -88,7 +88,7 @@
                     type="info"
                     color="green darken-1"
                 >
-                    Loading...
+                    No data...
                 </v-alert>
             </template>
         </v-data-table>
@@ -110,7 +110,7 @@
                 },
                 { text: 'City', value: 'city' },
                 { text: 'Open from', value: 'open_from' },
-                { text: 'To', value: 'open_to' },
+                { text: 'Closes', value: 'open_to' },
                 { text: 'Latitude', value: 'latitude' },
                 { text: 'Longitude', value: 'longitude' },
                 { text: 'Actions', value: 'action', sortable: false },
@@ -148,26 +148,12 @@
         },
 
         created () {
-            // this.initialize();
             axios.get('/api/v1/charging-stations')
                 .then(res => this.chargingStations = res.data.data)
                 .catch(error => console.log(error.response.data))
         },
 
         methods: {
-            initialize () {
-                this.chargingStations = [
-                    {
-                        name: '',
-                        city: '',
-                        open_from: '',
-                        open_to: '',
-                        latitude: '',
-                        longitude: ''
-                    },
-                ]
-            },
-
             editItem (item) {
                 this.editedIndex = this.chargingStations.indexOf(item);
                 this.editedItem = Object.assign({}, item);

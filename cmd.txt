@@ -105,3 +105,20 @@ docker-compose exec app vendor/bin/ecs check app --config vendor/symplify/easy-c
 
 # fix
 docker-compose exec app vendor/bin/ecs check app --fix
+
+
+/**
+* Returns one (the first) image connected to a shop product.
+*
+* @param string $k_shop_product Product shop ID.
+* @param int $i_height Maximal height size.
+* @param int $i_width Maximal width size.
+* @return array <ul>
+* <li>int <var>i_height</var> Height of the image.</li>
+* <li>int <var>i_width</var> Width of the image.</li>
+* <li>boolean <var>is_empty</var> <tt>True</tt> mean mock instead of real image.</li>
+* <li>string <var>s_url</var> URL on the image.</li>
+* @throws AImageException
+*/
+public static function one($k_shop_product,$i_width = RsShopProductImageList::THUMBNAIL_WIDTH,$i_height = RsShopProductImageList::THUMBNAIL_HEIGHT)
+

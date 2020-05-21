@@ -50,7 +50,7 @@
                     type="info"
                     color="green darken-1"
                 >
-                    Loading...
+                    No data...
                 </v-alert>
             </template>
         </v-data-table>
@@ -72,7 +72,7 @@
                 },
                 { text: 'City', value: 'city' },
                 { text: 'Open from', value: 'open_from' },
-                { text: 'To', value: 'open_to' },
+                { text: 'Closes', value: 'open_to' },
                 { text: 'Latitude', value: 'latitude' },
                 { text: 'Longitude', value: 'longitude' },
             ],
@@ -110,26 +110,10 @@
             }
         }),
 
-        created () {
-            this.initialize();
-        },
-
         methods: {
-            initialize () {
-                this.chargingStations = [
-                    {
-                        name: '',
-                        city: '',
-                        open_from: '',
-                        open_to: '',
-                        latitude: '',
-                        longitude: ''
-                    },
-                ]
-            },
 
             citySearch() {
-                axios.post('/api/v1/charging-stations/city', this.cityRequest)
+                axios.post('/api/v1/charging-stations/now-open', this.cityRequest)
                     .then(res => this.chargingStations = res.data.data)
                     .catch(error => console.log(error.response.data))
             },

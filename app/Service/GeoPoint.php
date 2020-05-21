@@ -33,7 +33,7 @@ final class GeoPoint
         return $this->longitude;
     }
 
-    public function getClosest($unitOfDistance = 'km'): array
+    public function getClosestNowOpenWithUnitOfDistance($unitOfDistance = 'km'): array
     {
         $timeNow = Carbon::now()->format('H:i');
 

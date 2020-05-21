@@ -13,6 +13,10 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Log;
 use Symfony\Component\HttpFoundation\Response;
 
+/**
+ * Class ChargingStationController
+ * @package App\Http\Controllers
+ */
 class ChargingStationController extends ApiController
 {
     public function index(): JsonResponse
@@ -95,11 +99,23 @@ class ChargingStationController extends ApiController
         return $this->success($result);
     }
 
-    public function getClosest(ClosestChargingStationsRequest $request): JsonResponse
+    /**
+     * Returns JsonResponse the nearest charging station, which is now open,
+     * by location coordinates (latitude, longitude)
+     *
+     * To find the exact GPS latitude and longitude coordinates of a point on a map
+     * https://www.maps.ie/coordinates.html
+     *
+     * @param ClosestChargingStationsRequest $request <ul>
+     * <li>float <var>latitude</var> Latitude is a geographic coordinate of the user.</li>
+     * <li>float <var>longitude</var> Longitude is a geographic coordinate of the user.</li>
+     * @return JsonResponse
+     */
+    public function getClosestNowOpen(ClosestChargingStationsRequest $request): JsonResponse
     {
         $latitude = $request->get('latitude');
         $longitude = $request->get('longitude');
 
-        return $this->success((new GeoPoint($latitude, $longitude))->getClosest());
+        return $this->success((new GeoPoint($latitude, $longitude))->getClosestNowOpenWithUnitOfDistance());
     }
 }

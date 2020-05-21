@@ -1993,6 +1993,23 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "ClosestPage",
   data: function data() {
@@ -2010,7 +2027,7 @@ __webpack_require__.r(__webpack_exports__);
         text: 'Open from',
         value: 'open_from'
       }, {
-        text: 'To',
+        text: 'Closes',
         value: 'open_to'
       }, {
         text: 'Latitude',
@@ -2024,28 +2041,16 @@ __webpack_require__.r(__webpack_exports__);
       }],
       chargingStations: [],
       dataRequest: {
-        city: ''
+        latitude: '',
+        longitude: ''
       }
     };
   },
-  created: function created() {
-    this.initialize();
-  },
   methods: {
-    initialize: function initialize() {
-      this.chargingStations = [{
-        name: '',
-        city: '',
-        open_from: '',
-        open_to: '',
-        latitude: '',
-        longitude: ''
-      }];
-    },
-    citySearch: function citySearch() {
+    searchClosest: function searchClosest() {
       var _this = this;
 
-      axios.post('/api/v1/charging-stations/city', this.cityRequest).then(function (res) {
+      axios.post('/api/v1/charging-stations/closest-now-open', this.dataRequest).then(function (res) {
         return _this.chargingStations = res.data.data;
       })["catch"](function (error) {
         return console.log(error.response.data);
@@ -2179,7 +2184,7 @@ __webpack_require__.r(__webpack_exports__);
         text: 'Open from',
         value: 'open_from'
       }, {
-        text: 'To',
+        text: 'Closes',
         value: 'open_to'
       }, {
         text: 'Latitude',
@@ -2225,7 +2230,6 @@ __webpack_require__.r(__webpack_exports__);
   created: function created() {
     var _this = this;
 
-    // this.initialize();
     axios.get('/api/v1/charging-stations').then(function (res) {
       return _this.chargingStations = res.data.data;
     })["catch"](function (error) {
@@ -2233,16 +2237,6 @@ __webpack_require__.r(__webpack_exports__);
     });
   },
   methods: {
-    initialize: function initialize() {
-      this.chargingStations = [{
-        name: '',
-        city: '',
-        open_from: '',
-        open_to: '',
-        latitude: '',
-        longitude: ''
-      }];
-    },
     editItem: function editItem(item) {
       this.editedIndex = this.chargingStations.indexOf(item);
       this.editedItem = Object.assign({}, item);
@@ -2374,7 +2368,7 @@ __webpack_require__.r(__webpack_exports__);
         text: 'Open from',
         value: 'open_from'
       }, {
-        text: 'To',
+        text: 'Closes',
         value: 'open_to'
       }, {
         text: 'Latitude',
@@ -2392,21 +2386,8 @@ __webpack_require__.r(__webpack_exports__);
       }
     };
   },
-  created: function created() {
-    this.initialize();
-  },
   methods: {
-    initialize: function initialize() {
-      this.chargingStations = [{
-        name: '',
-        city: '',
-        open_from: '',
-        open_to: '',
-        latitude: '',
-        longitude: ''
-      }];
-    },
-    citySearch: function citySearch() {
+    searchCity: function searchCity() {
       var _this = this;
 
       axios.post('/api/v1/charging-stations/city', this.cityRequest).then(function (res) {
@@ -2505,7 +2486,7 @@ __webpack_require__.r(__webpack_exports__);
         text: 'Open from',
         value: 'open_from'
       }, {
-        text: 'To',
+        text: 'Closes',
         value: 'open_to'
       }, {
         text: 'Latitude',
@@ -2523,24 +2504,11 @@ __webpack_require__.r(__webpack_exports__);
       }
     };
   },
-  created: function created() {
-    this.initialize();
-  },
   methods: {
-    initialize: function initialize() {
-      this.chargingStations = [{
-        name: '',
-        city: '',
-        open_from: '',
-        open_to: '',
-        latitude: '',
-        longitude: ''
-      }];
-    },
     citySearch: function citySearch() {
       var _this = this;
 
-      axios.post('/api/v1/charging-stations/city', this.cityRequest).then(function (res) {
+      axios.post('/api/v1/charging-stations/now-open', this.cityRequest).then(function (res) {
         return _this.chargingStations = res.data.data;
       })["catch"](function (error) {
         return console.log(error.response.data);
@@ -20915,28 +20883,82 @@ var render = function() {
         "v-card",
         [
           _c("v-card-title", [
-            _c("span", { staticClass: "headline" }, [_vm._v("Enter your city")])
+            _c("span", { staticClass: "headline" }, [
+              _vm._v("Enter your coordinates")
+            ])
           ]),
           _vm._v(" "),
           _c(
             "v-card-text",
             [
-              _c("v-combobox", {
-                attrs: {
-                  label: "City",
-                  items: _vm.dataRequest.cityNames,
-                  "prepend-icon": "mdi-city",
-                  placeholder: '"Київ" for example',
-                  outlined: ""
-                },
-                model: {
-                  value: _vm.dataRequest.city,
-                  callback: function($$v) {
-                    _vm.$set(_vm.dataRequest, "city", $$v)
+              _c(
+                "v-row",
+                [
+                  _c(
+                    "v-col",
+                    { attrs: { cols: "6" } },
+                    [
+                      _c("v-text-field", {
+                        attrs: {
+                          placeholder: "46.55126100",
+                          type: "number",
+                          label: "Latitude",
+                          "prepend-icon": "mdi-latitude"
+                        },
+                        model: {
+                          value: _vm.dataRequest.latitude,
+                          callback: function($$v) {
+                            _vm.$set(_vm.dataRequest, "latitude", $$v)
+                          },
+                          expression: "dataRequest.latitude"
+                        }
+                      })
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "v-col",
+                    { attrs: { cols: "6" } },
+                    [
+                      _c("v-text-field", {
+                        attrs: {
+                          placeholder: "30.17438800",
+                          type: "number",
+                          label: "Longitude",
+                          "prepend-icon": "mdi-longitude"
+                        },
+                        model: {
+                          value: _vm.dataRequest.longitude,
+                          callback: function($$v) {
+                            _vm.$set(_vm.dataRequest, "longitude", $$v)
+                          },
+                          expression: "dataRequest.longitude"
+                        }
+                      })
+                    ],
+                    1
+                  )
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c("small", [
+                _c(
+                  "a",
+                  {
+                    attrs: {
+                      href: "https://www.maps.ie/coordinates.html",
+                      target: "_blank"
+                    }
                   },
-                  expression: "dataRequest.city"
-                }
-              })
+                  [
+                    _vm._v(
+                      "\n                    To find the exact GPS latitude and longitude coordinates of a point on a map: https://www.maps.ie\n                "
+                    )
+                  ]
+                )
+              ])
             ],
             1
           ),
@@ -20950,9 +20972,13 @@ var render = function() {
                 "v-btn",
                 {
                   attrs: { color: "deep-purple darken-4", large: "", dark: "" },
-                  on: { click: _vm.citySearch }
+                  on: { click: _vm.searchClosest }
                 },
-                [_vm._v("\n                Click to search!\n            ")]
+                [
+                  _vm._v(
+                    "\n                Click to search closest now open!\n            "
+                  )
+                ]
               ),
               _vm._v(" "),
               _c("v-spacer")
@@ -20968,7 +20994,7 @@ var render = function() {
         attrs: {
           headers: _vm.headers,
           items: _vm.chargingStations,
-          "sort-by": "name"
+          "sort-by": "distance"
         },
         scopedSlots: _vm._u([
           {
@@ -20979,7 +21005,9 @@ var render = function() {
                   "v-toolbar",
                   { attrs: { flat: "", color: "white" } },
                   [
-                    _c("v-toolbar-title", [_vm._v("API service (closest)")]),
+                    _c("v-toolbar-title", [
+                      _vm._v("API service (closest now open)")
+                    ]),
                     _vm._v(" "),
                     _c("v-divider", {
                       staticClass: "mx-4",
@@ -21001,7 +21029,7 @@ var render = function() {
                 _c(
                   "v-alert",
                   { attrs: { type: "info", color: "green darken-1" } },
-                  [_vm._v("\n                Loading...\n            ")]
+                  [_vm._v("\n                No data...\n            ")]
                 )
               ]
             },
@@ -21384,7 +21412,7 @@ var render = function() {
                 _c(
                   "v-alert",
                   { attrs: { type: "info", color: "green darken-1" } },
-                  [_vm._v("\n                Loading...\n            ")]
+                  [_vm._v("\n                No data...\n            ")]
                 )
               ]
             },
@@ -21460,7 +21488,7 @@ var render = function() {
                 "v-btn",
                 {
                   attrs: { color: "deep-purple darken-4", large: "", dark: "" },
-                  on: { click: _vm.citySearch }
+                  on: { click: _vm.searchCity }
                 },
                 [_vm._v("\n                Click to search!\n            ")]
               ),
@@ -21511,7 +21539,7 @@ var render = function() {
                 _c(
                   "v-alert",
                   { attrs: { type: "info", color: "green darken-1" } },
-                  [_vm._v("\n                Loading...\n            ")]
+                  [_vm._v("\n                No data...\n            ")]
                 )
               ]
             },
@@ -21638,7 +21666,7 @@ var render = function() {
                 _c(
                   "v-alert",
                   { attrs: { type: "info", color: "green darken-1" } },
-                  [_vm._v("\n                Loading...\n            ")]
+                  [_vm._v("\n                No data...\n            ")]
                 )
               ]
             },
