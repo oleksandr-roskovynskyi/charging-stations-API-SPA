@@ -15,9 +15,19 @@ public/hot
 public_html/storage
 public_html/hot
 
+# Webpack exec
+public/css/
+public/js/
+public/fonts/
+public/mix-manifest.json
+
 storage/*.key
 .env
-Homestead.yaml
-Homestead.json
-/.vagrant
+.env.backup
 .phpunit.result.cache
+.idea
+.docker/.postgre
+.docker/.mysql
+docker-compose.yml
+cmd.txt
+commands.txt
