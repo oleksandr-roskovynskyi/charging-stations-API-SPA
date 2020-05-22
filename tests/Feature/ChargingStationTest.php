@@ -69,7 +69,7 @@ class ChargingStationTest extends TestCase
     {
         $chargingStation = factory(ChargingStation::class)->create();
 
-        $chargingStation->name = "Updated Name";
+        $chargingStation->name = 'Updated Name';
 
         $response = $this->put(self::ENDPOINT . '/' . $chargingStation->id, $chargingStation->toArray());
 
@@ -78,6 +78,46 @@ class ChargingStationTest extends TestCase
         $response->assertJsonFragment(["status" => "Success"])
             ->assertSee(str_replace('"', '', json_encode($chargingStation->name)))
             ->assertStatus(200);
+    }
+
+    public function testCanUpdateWithMyUniqueNameChargingStation(): void
+    {
+        $chargingStation = factory(ChargingStation::class)->create([
+            'name' => 'Updated Name',
+            'city' => 'Київ'
+        ]);
+
+        $chargingStation->name = 'Updated Name';
+        $chargingStation->city = 'Бориспіль';
+
+        $response = $this->put(self::ENDPOINT . '/' . $chargingStation->id, $chargingStation->toArray());
+
+        $this->assertDatabaseHas($chargingStation->getTable(), ['id'=> $chargingStation->id , 'city' => 'Бориспіль']);
+
+        $response->assertJsonFragment(["status" => "Success"])
+            ->assertSee(str_replace('"', '', json_encode($chargingStation->name)))
+            ->assertSee(str_replace('"', '', json_encode($chargingStation->city)))
+            ->assertStatus(200);
+    }
+
+    public function testCanNotUpdateWithNotUniqueNameChargingStation(): void
+    {
+        $chargingStationInDB = factory(ChargingStation::class)->create([
+            'name' => 'Unique Name',
+        ]);
+
+        $chargingStationInDB2 = factory(ChargingStation::class)->create();
+
+        $chargingStation = factory(ChargingStation::class)->make([
+            'name' => 'Unique Name',
+        ]);
+
+        $response = $this->put(self::ENDPOINT . '/' . $chargingStationInDB2->id, $chargingStation->toArray());
+
+        $this->assertDatabaseHas($chargingStationInDB->getTable(), ['id'=> $chargingStationInDB->id , 'name' => 'Unique Name']);
+
+        $response->assertJsonFragment(['name' => ['The name has already been taken.']])
+            ->assertStatus(422);
     }
 
     public function testCanDeleteChargingStation(): void

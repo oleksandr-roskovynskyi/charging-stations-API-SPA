@@ -28,7 +28,7 @@ class CityChargingStationsRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'city' => 'required|string|max:100',
+            'city' => 'required|string|between:3,100',
         ];
     }
 

@@ -19,6 +19,9 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class ChargingStationController extends ApiController
 {
+    /**
+     * @return JsonResponse
+     */
     public function index(): JsonResponse
     {
         $chargingStations = ChargingStation::all();
@@ -26,6 +29,10 @@ class ChargingStationController extends ApiController
         return $this->success($chargingStations);
     }
 
+    /**
+     * @param ChargingStation $chargingStation
+     * @return JsonResponse
+     */
     public function show(ChargingStation $chargingStation): JsonResponse
     {
         $chargingStation = ChargingStation::findOrFail($chargingStation->getKey());
@@ -33,6 +40,10 @@ class ChargingStationController extends ApiController
         return $this->success($chargingStation);
     }
 
+    /**
+     * @param ChargingStationRequest $request
+     * @return JsonResponse
+     */
     public function store(ChargingStationRequest $request): JsonResponse
     {
         try {
@@ -55,13 +66,24 @@ class ChargingStationController extends ApiController
         return $this->fail($result['message']);
     }
 
-    public function update(UpdateChargingStationRequest $request, ChargingStation $chargingStation): JsonResponse
+    /**
+     * @param UpdateChargingStationRequest $request
+     * @param $id
+     * @return JsonResponse
+     */
+    public function update(UpdateChargingStationRequest $request, $id): JsonResponse
     {
+        $chargingStation = ChargingStation::findOrFail($id);
         $chargingStation->update($request->all());
 
         return $this->success($chargingStation->toArray());
     }
 
+    /**
+     * @param ChargingStation $chargingStation
+     * @return JsonResponse
+     * @throws \Exception
+     */
     public function destroy(ChargingStation $chargingStation): JsonResponse
     {
         $chargingStation->delete();
@@ -69,6 +91,12 @@ class ChargingStationController extends ApiController
         return $this->success('', Response::HTTP_NO_CONTENT);
     }
 
+    /**
+     * Returns JsonResponse the charging stations of city
+     *
+     * @param CityChargingStationsRequest $request
+     * @return JsonResponse
+     */
     public function getChargingStationsOfCity(CityChargingStationsRequest $request): JsonResponse
     {
         $city = $request->get('city');
@@ -78,6 +106,12 @@ class ChargingStationController extends ApiController
         return $this->success($result);
     }
 
+    /**
+     * Returns JsonResponse the charging stations of city, which is now open
+     *
+     * @param CityChargingStationsRequest $request
+     * @return JsonResponse
+     */
     public function getOpeningOfCity(CityChargingStationsRequest $request): JsonResponse
     {
         $city = $request->get('city');
@@ -100,7 +134,7 @@ class ChargingStationController extends ApiController
     }
 
     /**
-     * Returns JsonResponse the nearest charging station, which is now open,
+     * Returns JsonResponse the nearest charging stations, which is now open,
      * by location coordinates (latitude, longitude)
      *
      * To find the exact GPS latitude and longitude coordinates of a point on a map

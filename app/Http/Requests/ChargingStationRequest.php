@@ -28,8 +28,8 @@ class ChargingStationRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|unique:charging_stations|string|max:255',
-            'city' => 'required|string|max:50',
+            'name' => 'required|unique:charging_stations|string|between:3,255',
+            'city' => 'required|string|between:3,100',
             'open_from' => 'required|date_format:H:i',
             'open_to' => 'required|date_format:H:i',
             'latitude' => ['required', 'regex:/^(\+|-)?(?:90(?:(?:\.0{1,8})?)|(?:[0-9]|[1-8][0-9])(?:(?:\.[0-9]{1,8})?))$/'],

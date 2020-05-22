@@ -6,6 +6,7 @@ use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Validation\Rule;
 use Illuminate\Validation\ValidationException;
 
 class UpdateChargingStationRequest extends FormRequest
@@ -29,13 +30,26 @@ class UpdateChargingStationRequest extends FormRequest
     {
         return [
             'id' => "required|integer|exists:charging_stations,id",
-            'name' => "required|string|max:255|unique:charging_stations,name,{$this->get('id')}",
+            'name' => ['required', 'string', 'between:3,255',
+                Rule::unique('charging_stations', 'name')->ignore($this->id)],
             'city' => 'required|string|max:100',
             'open_from' => 'required|date_format:H:i',
             'open_to' => 'required|date_format:H:i',
             'latitude' => ['required', 'regex:/^(\+|-)?(?:90(?:(?:\.0{1,8})?)|(?:[0-9]|[1-8][0-9])(?:(?:\.[0-9]{1,8})?))$/'],
             'longitude' => ['required', 'regex:/^(\+|-)?(?:180(?:(?:\.0{1,8})?)|(?:[0-9]|[1-9][0-9]|1[0-7][0-9])(?:(?:\.[0-9]{1,8})?))$/'],
         ];
+    }
+
+    /**
+     * @param null $keys
+     * @return array
+     */
+    public function all($keys = null): array
+    {
+        $data = parent::all($keys);
+        $data['id'] = $this->route('charging_station');
+
+        return $data;
     }
 
     /**
