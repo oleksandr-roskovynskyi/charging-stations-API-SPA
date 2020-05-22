@@ -66,7 +66,7 @@ class ChargingStationController extends ApiController
     {
         $chargingStation->delete();
 
-        return $this->success('Deleted!', Response::HTTP_NO_CONTENT);
+        return $this->success('', Response::HTTP_NO_CONTENT);
     }
 
     public function getChargingStationsOfCity(CityChargingStationsRequest $request): JsonResponse

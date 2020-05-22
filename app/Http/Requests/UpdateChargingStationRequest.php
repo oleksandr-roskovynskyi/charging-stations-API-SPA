@@ -10,8 +10,6 @@ use Illuminate\Validation\ValidationException;
 
 class UpdateChargingStationRequest extends FormRequest
 {
-    private $charging_station;
-
     /**
      * Determine if the user is authorized to make this request.
      *

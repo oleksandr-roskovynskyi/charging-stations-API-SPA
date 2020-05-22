@@ -17,13 +17,19 @@ cp .env.example .env
 
 docker-compose up -d
 
-docker-compose exec app composer install --no-dev --optimize-autoloader
+docker-compose exec app composer install
 docker-compose exec app php artisan key:generate
 docker-compose exec app php artisan migrate --seed
-docker-compose run frontend npm install --production
+docker-compose run frontend npm install
 docker-compose run frontend npm run prod
 ```
 
 Open browser:
 
 `https://localhost:8001`
+
+
+### Tests
+```bash
+docker-compose exec app vendor/bin/phpunit
+```
