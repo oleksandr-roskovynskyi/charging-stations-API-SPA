@@ -8,10 +8,15 @@ up:
  	docker-compose exec app php artisan db:seed && \
 	docker-compose run frontend npm install && \
 	docker-compose run frontend npm run prod
-
 watch:
 	docker-compose run frontend npm run watch
-
 d:
 	docker-compose up -d && \
 	docker-compose ps
+down:
+	docker-compose down
+res:
+	docker-compose stop
+	docker-compose up -d
+o:
+	docker-compose exec app composer dump-autoload -o

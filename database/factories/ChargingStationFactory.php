@@ -4,10 +4,12 @@
 
 use App\Models\ChargingStation;
 use Faker\Generator as Faker;
+use Faker\Provider\uk_UA\Address;
+use Faker\Provider\uk_UA\Company;
 
 $factory->define(ChargingStation::class, function (Faker $faker) {
-    $faker->addProvider(new \Faker\Provider\uk_UA\Address($faker));
-    $faker->addProvider(new \Faker\Provider\uk_UA\Company($faker));
+    $faker->addProvider(new Address($faker));
+    $faker->addProvider(new Company($faker));
 
     return [
         'name' => $faker->companyPrefix . ' ' . $faker->companyName . '-' . $faker->companySuffix,

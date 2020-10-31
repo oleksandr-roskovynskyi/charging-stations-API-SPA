@@ -1,5 +1,9 @@
 <?php
 
+use Carbon\Carbon;
+use Faker\Factory;
+use Faker\Provider\uk_UA\Address;
+use Faker\Provider\uk_UA\Company;
 use Illuminate\Database\Seeder;
 use App\Models\ChargingStation;
 
@@ -14,13 +18,13 @@ class ChargingStationsTableSeeder extends Seeder
     {
         ChargingStation::truncate();
 
-        $dateTimeNow = \Carbon\Carbon::now();
+        $dateTimeNow = Carbon::now();
 
         $arrayChargingStations = [];
 
-        $faker = \Faker\Factory::create();
-        $faker->addProvider(new \Faker\Provider\uk_UA\Address($faker));
-        $faker->addProvider(new \Faker\Provider\uk_UA\Company($faker));
+        $faker = Factory::create();
+        $faker->addProvider(new Address($faker));
+        $faker->addProvider(new Company($faker));
 
         while (true) {
             $uniqueName = $faker->companyPrefix . ' ' . $faker->companyName . '-' . $faker->companySuffix; //max ~300
