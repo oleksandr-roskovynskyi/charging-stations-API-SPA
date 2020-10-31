@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Repositories\Contracts\ChargingStationsRepository;
 use \Illuminate\Http\JsonResponse;
 use App\Http\Requests\ChargingStationRequest;
 use App\Http\Requests\CityChargingStationsRequest;
@@ -19,6 +20,12 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class ChargingStationController extends ApiController
 {
+    private $chargingStationsRepository;
+
+    public function __construct(ChargingStationsRepository $chargingStationsRepository)
+    {
+        $this->chargingStationsRepository = $chargingStationsRepository;
+    }
     /**
      * @return JsonResponse
      */
@@ -115,22 +122,10 @@ class ChargingStationController extends ApiController
     public function getOpeningOfCity(CityChargingStationsRequest $request): JsonResponse
     {
         $city = $request->get('city');
-        $timeNow = Carbon::now()->format('H:i');
 
-        $result =  ChargingStation::where(function ($query) use ($timeNow, $city) {
-                $query->whereTime('open_from', '<', $timeNow)
-                    ->whereTime('open_to', '>', $timeNow)
-                    ->where('city', $city);
-            })
-            ->orWhere(function ($query) use ($timeNow, $city) {
-                $query->whereTime('open_from', '<', $timeNow)
-                    ->whereTime('open_to', '<', $timeNow)
-                    ->whereRaw('open_to::time < open_from::time')
-                    ->where('city', $city);
-            })
-            ->get();
-
-        return $this->success($result);
+        return $this->success(
+            $this->chargingStationsRepository->getOpeningOfCity($city)
+        );
     }
 
     /**
