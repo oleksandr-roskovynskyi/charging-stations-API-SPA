@@ -20,3 +20,5 @@ res:
 	docker-compose up -d
 o:
 	docker-compose exec app composer dump-autoload -o
+test:
+	docker-compose exec app vendor/bin/phpunit

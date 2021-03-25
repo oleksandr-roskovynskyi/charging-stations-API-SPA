@@ -5,7 +5,7 @@ namespace App\Service;
 use App\Models\ChargingStation;
 use Carbon\Carbon;
 
-final class GeoPoint
+class GeoPoint
 {
     public const RADIUS_OF_EARTH_KM = 6367;
     public const RADIUS_OF_EARTH_METERS = 6367000;
