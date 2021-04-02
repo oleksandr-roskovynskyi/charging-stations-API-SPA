@@ -15,12 +15,16 @@ d:
 	docker-compose ps
 down:
 	docker-compose down
+status:
+	docker-compose ps
 res:
 	docker-compose stop
 	docker-compose up -d
 o:
 	docker-compose exec app composer dump-autoload -o
 
+fresh:
+	docker-compose exec app php artisan migrate:fresh --seed
 test:
 	docker-compose exec app vendor/bin/phpunit
 

@@ -14,7 +14,7 @@ use Tests\TestCase;
 class ChargingStationTest extends TestCase
 {
     use WithFaker;
-    use DatabaseTransactions;
+    use DatabaseTransactions; //)))
 
     public const ENDPOINT = '/api/v1/charging-stations';
 
