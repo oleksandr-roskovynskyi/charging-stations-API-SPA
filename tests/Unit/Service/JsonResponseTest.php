@@ -5,8 +5,14 @@ namespace Tests\Unit\Service;
 use App\Service\JsonResponse;
 use PHPUnit\Framework\TestCase;
 
+/**
+ * @covers \App\Service\JsonResponse
+ */
 class JsonResponseTest extends TestCase
 {
+    /**
+     * @group start
+     */
     public function testResponseInt()
     {
         $response = new JsonResponse(11);

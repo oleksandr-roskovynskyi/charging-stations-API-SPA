@@ -20,5 +20,24 @@ res:
 	docker-compose up -d
 o:
 	docker-compose exec app composer dump-autoload -o
+
 test:
 	docker-compose exec app vendor/bin/phpunit
+
+test-feature:
+	docker-compose exec app vendor/bin/phpunit --filter=Feature
+
+test-suite:
+	docker-compose exec app vendor/bin/phpunit --testsuite=Feature
+
+test-group:
+	docker-compose exec app vendor/bin/phpunit --group=start,example
+
+test-unit-coverage:
+	docker-compose exec app vendor/bin/phpunit --testsuite=Unit --coverage-html var/coverage/unit
+
+test-functional-coverage:
+	docker-compose exec app vendor/bin/phpunit --testsuite=functional --coverage-html var/coverage/functional
+
+test-coverage:
+	docker-compose exec app vendor/bin/phpunit --coverage-html var/coverage/all

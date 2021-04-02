@@ -7,6 +7,9 @@ use Carbon\Carbon;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
+/**
+ * @covers \App\Http\Controllers\ChargingStationController
+ */
 class ChargingStationTest extends TestCase
 {
     use WithFaker;
@@ -21,6 +24,10 @@ class ChargingStationTest extends TestCase
         $this->setBaseModel(ChargingStation::class);
     }
 
+    /**
+     * @group start
+     * @group example
+     */
     public function testCanCreateChargingStation(): void
     {
         $this->create()

@@ -31,3 +31,4 @@ storage/*.key
 docker-compose.yml
 cmd.txt
 commands.txt
+var/

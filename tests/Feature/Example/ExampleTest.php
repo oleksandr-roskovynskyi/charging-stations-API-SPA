@@ -4,10 +4,15 @@ namespace Tests\Feature\Example;
 
 use Tests\TestCase;
 
+/**
+ * @coversNothing
+ */
 class ExampleTest extends TestCase
 {
     /**
      * A basic test example.
+     *
+     * @group example
      *
      * @return void
      */
