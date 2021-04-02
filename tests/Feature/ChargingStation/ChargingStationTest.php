@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature;
+namespace Tests\Feature\ChargingStation;
 
 use App\Models\ChargingStation;
 use Carbon\Carbon;
