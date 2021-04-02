@@ -4,6 +4,7 @@ namespace Tests\Feature\ChargingStation;
 
 use App\Models\ChargingStation;
 use Carbon\Carbon;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
@@ -13,6 +14,7 @@ use Tests\TestCase;
 class ChargingStationTest extends TestCase
 {
     use WithFaker;
+    use DatabaseTransactions;
 
     public const ENDPOINT = '/api/v1/charging-stations';
 
